@@ -1,8 +1,8 @@
 import { createUI } from "./ui.js";
 import { createGame } from "./game.js";
 import { openModal, closeModal } from "./modal.js";
-import { createWinContent } from "./modals.js";
-import { saveResult } from "./storage.js";
+import { createWinContent, createLeaderboardContent } from "./modals.js";
+import { saveResult, getResults } from "./storage.js";
 
 const ui = createUI();
 document.body.append(ui.app);
@@ -23,4 +23,8 @@ function handleWin(moves) {
 }
 
 ui.newGameBtn.addEventListener("click", game.start);
+ui.leaderboardBtn.addEventListener("click", () => {
+  openModal(createLeaderboardContent(getResults(), { onClose: closeModal }));
+});
+
 game.start();
