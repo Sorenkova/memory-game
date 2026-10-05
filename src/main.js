@@ -10,3 +10,23 @@ const game = createGame(ui, {
 
 ui.newGameBtn.addEventListener("click", game.start);
 game.start();
+
+import { createEl } from "./dom.js";
+import { openModal, closeModal } from "./modal.js";
+
+ui.leaderboardBtn.addEventListener("click", () => {
+  const closeBtn = createEl("button", {
+    className: "btn",
+    text: "Close",
+    attrs: { type: "button" },
+  });
+  closeBtn.addEventListener("click", closeModal);
+
+  openModal(
+    createEl("div", {}, [
+      createEl("h2", { text: "Leaderboard" }),
+      createEl("p", { text: "No results yet" }),
+      closeBtn,
+    ]),
+  );
+});
