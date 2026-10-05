@@ -108,3 +108,9 @@ body {
   background: #fff;
   outline: none;
 }
+
+.modal__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}

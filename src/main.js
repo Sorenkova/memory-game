@@ -1,32 +1,26 @@
 import { createUI } from "./ui.js";
 import { createGame } from "./game.js";
+import { openModal, closeModal } from "./modal.js";
+import { createWinContent } from "./modals.js";
+import { saveResult } from "./storage.js";
 
 const ui = createUI();
 document.body.append(ui.app);
 
-const game = createGame(ui, {
-  onWin: (moves) => console.log("win", moves),
-});
+const game = createGame(ui, { onWin: handleWin });
+
+function handleWin(moves) {
+  saveResult(moves);
+  openModal(
+    createWinContent(moves, {
+      onNewGame: () => {
+        closeModal();
+        game.start();
+      },
+      onClose: closeModal,
+    }),
+  );
+}
 
 ui.newGameBtn.addEventListener("click", game.start);
 game.start();
-
-import { createEl } from "./dom.js";
-import { openModal, closeModal } from "./modal.js";
-
-ui.leaderboardBtn.addEventListener("click", () => {
-  const closeBtn = createEl("button", {
-    className: "btn",
-    text: "Close",
-    attrs: { type: "button" },
-  });
-  closeBtn.addEventListener("click", closeModal);
-
-  openModal(
-    createEl("div", {}, [
-      createEl("h2", { text: "Leaderboard" }),
-      createEl("p", { text: "No results yet" }),
-      closeBtn,
-    ]),
-  );
-});
